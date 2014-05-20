@@ -1,5 +1,27 @@
 
+setwd("./Github/ML_for_Hackers/06_regularization/")
+
+library('ggplot2')
+library('tm')
+library('glmnet')
 library('boot')
+
+# read csv and create Document Term Matrix
+ranks <- read.csv('data/oreilly.csv', stringsAsFactors = FALSE)
+
+documents <- data.frame(Text = ranks$Long.Desc.)
+row.names(documents) <- 1:nrow(documents)
+
+corpus <- Corpus(DataframeSource(documents))
+corpus <- tm_map(corpus, tolower)
+corpus <- tm_map(corpus, stripWhitespace)
+corpus <- tm_map(corpus, removeWords, stopwords('english'))
+
+dtm <- DocumentTermMatrix(corpus)
+
+# learn on training data and cross-validate on test data
+# with varying lambda, 50 iterations
+x <- as.matrix(dtm)
 
 y <- rep(c(1, 0), each = 50)
 
