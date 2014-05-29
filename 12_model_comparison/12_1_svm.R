@@ -16,16 +16,16 @@ logit.fit <- glm(Label ~ X + Y,
 logit.predictions <- ifelse(predict(logit.fit) > 0, 1, 0)
 
 mean(with(df, logit.predictions == Label))
-## check output
+## check output. 52%
 
 # assign 0 to all points
 mean(with(df, 0 == Label))
-## check output
+## check output. roughtly same
 
 svm.fit <- svm(Label ~ X + Y, data = df)
 svm.predictions <- ifelse(predict(svm.fit) > 0, 1, 0)
 mean(with(df, svm.predictions == Label))
-## check output
+## check output. better than logistic regression
 
 # plot
 df <- cbind(df,
